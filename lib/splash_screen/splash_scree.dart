@@ -1,21 +1,48 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
 
-class SplashScreen extends StatelessWidget {
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:flutter/material.dart';
+import 'package:snake_game/game/game_stage.dart';
+
+class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
   @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       backgroundColor: Colors.black,
-      body: Center(
-        child: Text(
-          "hii",
-          style: TextStyle(
-            fontSize: 50,
-            color: Colors.white,
-          ),
+      body: TextLiquidFill(
+        text: 'SNAKES',
+        waveColor: Colors.white,
+        boxBackgroundColor: Colors.black,
+        textStyle: const TextStyle(
+          color: Colors.black,
+          fontSize: 80.0,
+          fontWeight: FontWeight.bold,
         ),
+        boxHeight: MediaQuery.of(context).size.height,
       ),
     );
+  }
+
+  void startTimer() {
+    Timer.periodic(const Duration(seconds: 6), (_) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => const GameStage(),
+        ),
+      );
+    });
   }
 }
