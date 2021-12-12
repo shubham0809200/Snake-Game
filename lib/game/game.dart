@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:snake_game/game/game_stage.dart';
 
 class Game extends StatefulWidget {
-  const Game({Key? key}) : super(key: key);
+  final int speed;
+  const Game({Key? key, required this.speed}) : super(key: key);
 
   @override
   _GameState createState() => _GameState();
@@ -12,12 +14,12 @@ class Game extends StatefulWidget {
 
 class _GameState extends State<Game> {
   static List<int> snakePosition = [45, 65, 85, 105, 125];
-  int numberOfSquares = 760;
+  int numberOfSquares = 700;
 
   static var randomNumber = Random();
-  int food = randomNumber.nextInt(700);
+  int food = randomNumber.nextInt(620);
   void generateNewFood() {
-    food = randomNumber.nextInt(700);
+    food = randomNumber.nextInt(620);
     noFoodInsideSnake(food);
   }
 
@@ -31,7 +33,7 @@ class _GameState extends State<Game> {
 
   void startGame() {
     snakePosition = [45, 65, 85, 105, 125];
-    const duration = Duration(milliseconds: 200);
+    final duration = Duration(milliseconds: widget.speed);
     Timer.periodic(duration, (Timer timer) {
       updateSnake();
       if (gameOver()) {
@@ -47,8 +49,8 @@ class _GameState extends State<Game> {
       () {
         switch (direction) {
           case ('down'):
-            if (snakePosition.last > 740) {
-              snakePosition.add(snakePosition.last + 20 - 760);
+            if (snakePosition.last > 680) {
+              snakePosition.add(snakePosition.last + 20 - 700);
             } else {
               snakePosition.add(snakePosition.last + 20);
             }
@@ -56,7 +58,7 @@ class _GameState extends State<Game> {
 
           case ('up'):
             if (snakePosition.last < 20) {
-              snakePosition.add(snakePosition.last - 20 + 760);
+              snakePosition.add(snakePosition.last - 20 + 700);
             } else {
               snakePosition.add(snakePosition.last - 20);
             }
@@ -114,12 +116,27 @@ class _GameState extends State<Game> {
           content:
               Text('You\'re  score: ' + (snakePosition.length - 5).toString()),
           actions: [
-            TextButton(
-              onPressed: () {
-                startGame();
-                Navigator.of(context).pop();
-              },
-              child: const Text('Play Again'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) => const GameStage(),
+                      ),
+                    );
+                  },
+                  child: const Text('Home'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    startGame();
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Play Again'),
+                ),
+              ],
             )
           ],
         );
@@ -130,6 +147,27 @@ class _GameState extends State<Game> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.grey[500],
+        leading: BackButton(
+          color: Colors.white,
+          onPressed: () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) => const GameStage(),
+              ),
+            );
+          },
+        ),
+        centerTitle: true,
+        title: Text(
+          "score : " + (snakePosition.length - 5).toString(),
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 20.0,
+          ),
+        ),
+      ),
       backgroundColor: Colors.black,
       body: Column(
         children: [
@@ -215,13 +253,6 @@ class _GameState extends State<Game> {
                     ),
                   ),
                 ),
-                Text(
-                  "score : " + (snakePosition.length - 5).toString(),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                  ),
-                )
               ],
             ),
           )

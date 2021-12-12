@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:snake_game/game/game.dart';
+import 'package:snake_game/game/game_stage.dart';
+import 'package:snake_game/splash_screen/splash_scree.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: const Game(),
+      home: const GameStage(),
     );
   }
 }
