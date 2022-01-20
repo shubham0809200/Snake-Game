@@ -1,5 +1,8 @@
 # snake_game
+This is a simple snake Game under development made with the help of youtube. <br> Hope you all will ike it .<a href="/assets/app-release.apk" download> Download Apk </a>
 
-<video width="320" height="240" controls>
-  <source src="/assets/WhatsApp Video 2022-01-20 at 3.51.34 PM.mp4" type="video/mp4">
-</video>
+<p align="center">
+  <img width="368" height="800" src="/assets/game.gif">
+</p>
+
+
